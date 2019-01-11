@@ -50,14 +50,14 @@ const updateCurrentPosition = () => {
 }
 const iterateSnake = (nodeUpdate, terminationAction, startingNode) => {
 	let n = startingNode || head;
-    while(true) {
-      if(!n.next.next) {
-        terminationAction(n);
-        break;
-      }
-	    nodeUpdate(n);
-      n = n.next;
-    }
+	while(true) {
+		if(!n.next.next) {
+			terminationAction(n);
+			break;
+		}
+		nodeUpdate(n);
+		n = n.next;
+	}
 }
 
 const wrap = () => iterateSnake(n => {
@@ -67,9 +67,9 @@ const wrap = () => iterateSnake(n => {
 	if(n.y > boardWidth - 1) n.y = 0;
 }, _ => {});
 const checkForGameOver = () => iterateSnake(
-		n => { if(head.x === n.x && head.y === n.y) { clearInterval(interval); } }, 
-		_ => {}, 
-		head.next);
+	n => { if(head.x === n.x && head.y === n.y) { clearInterval(interval); } }, 
+	_ => {}, 
+	head.next);
 const removeTail = () => iterateSnake(_ => {}, n => n.next = undefined);
 const checkForFood = () => head.x === foodNode.x && head.y === foodNode.y ? foodNode = newFood() : removeTail();
 const updateSnake = () => {
@@ -81,17 +81,17 @@ const updateSnake = () => {
 const addSnakeToTheBoard = () => {
 	let n = head;
 	while(n) {
-		  board[n.x][n.y] = snake;
-		  n = n.next;
+		board[n.x][n.y] = snake;
+		n = n.next;
 	 }
 }
 const clearBoard = () => board.forEach((r, i) => r.forEach((_, j) => board[i][j] = empty));
 
 interval = setInterval(() => {
-  updateCurrentPosition();
-  updateSnake();
-  clearBoard();
-  addSnakeToTheBoard();
-  board[foodNode.x][foodNode.y] = food;
-  paint(board);
+	updateCurrentPosition();
+	updateSnake();
+	clearBoard();
+	addSnakeToTheBoard();
+	board[foodNode.x][foodNode.y] = food;
+	paint(board);
 }, 200);
